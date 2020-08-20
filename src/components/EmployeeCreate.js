@@ -20,6 +20,7 @@ class EmployeeCreate extends Component {
           />
         </CardSection>
         <CardSection>
+
           <Input
             label="Phone"
             placeholder="555-555-5555"
@@ -27,9 +28,13 @@ class EmployeeCreate extends Component {
             onChangeText={value => this.props.employeeUpdate({ prop: 'phone', value })}
           />
         </CardSection>
-        <CardSection>
+        <CardSection style={{ flexDirection: 'column'}}>
+          <View style={{height: 75, paddingTop: 7}}>
+            <View style={{height: 25}}>
+        <Text style={styles.pickerLabel}>Shift</Text>
+        </View>
           <Picker
-            style={{ flex: 1 }}
+            style={{ flex: 1 , height: 150}}
             selectedValue={this.props.shift}
             onValueChange={value => this.props.employeeUpdate({ prop: 'shift', value })}
           >
@@ -41,6 +46,7 @@ class EmployeeCreate extends Component {
             <Picker.Item label="Saturday" value="Saturday" />
             <Picker.Item label="Sunday" value="Sunday" />
           </Picker>
+          </View>
         </CardSection>
         <CardSection>
           <Button>
@@ -49,6 +55,14 @@ class EmployeeCreate extends Component {
         </CardSection>
       </Card>
     );
+  }
+}
+
+const styles = {
+  pickerLabel: {
+    fontSize: 18,
+    paddingLeft: 20,
+    height: 20
   }
 }
 
