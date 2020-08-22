@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "firebase": "^7.17.1",
+    "lodash": "^4.17.20",
     "react": "16.13.1",
     "react-native": "0.63.2",
     "react-native-loading-spinner-overlay": "^1.1.0",
