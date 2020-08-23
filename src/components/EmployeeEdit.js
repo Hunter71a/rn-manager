@@ -2,11 +2,12 @@ import _ from 'lodash';
 import React, { Component } from 'react';
 import EmployeeForm from './EmployeeForm';
 import { connect } from 'react-redux';
-import { employeeUpdate, employeeSave } from '../actions';
-import { Card, CardSection, Button } from './common';
+import { employeeUpdate, employeeSave, employeeDelete } from '../actions';
+import { Card, CardSection, Button, Confirm } from './common';
 import Communications from 'react-native-communications';
 
 class EmployeeEdit extends Component {
+  state = { showModal: false };
   componentDidMount() {
     _.each(this.props.employee, (value, prop) => {
       this.props.employeeUpdate({ prop, value });
@@ -16,13 +17,23 @@ class EmployeeEdit extends Component {
   onButtonPress() {
     const { name, phone, shift } = this.props;
 
-    this.props.employeeSave({name, phone, shift, uid: this.props.employee.uid});
+    this.props.employeeSave({ name, phone, shift, uid: this.props.employee.uid });
   }
 
   onTextPress() {
-    const {phone, shift} = this.props;
+    const { phone, shift } = this.props;
 
     Communications.text(phone, `Your upcomming shift is on ${shift}`);
+  }
+
+  onConfirmAccept() {
+    const {uid} = this.props.employee;
+    this.props.employeeDelete({uid});
+  }
+
+  onConfirmDecline() {
+    console.log('Attempting Decline');
+    this.setState({ showModal: false });
   }
 
   render() {
@@ -39,15 +50,28 @@ class EmployeeEdit extends Component {
             Text Schedule
           </Button>
         </CardSection>
+        <CardSection>
+          <Button afterPress={() => this.setState({ showModal: !this.state.showModal })}>
+            Fire Employee
+          </Button>
+        </CardSection>
+        <Confirm
+          visible={this.state.showModal}
+          onAccept={this.onConfirmAccept.bind(this)}
+          onDecline={this.onConfirmDecline.bind(this)}
+        >
+          Are you sure you want to delete this employee? It will kill them!
+        </Confirm>
       </Card>
     );
   }
 }
-
 
 const mapStateProps = (state) => {
   const { name, phone, shift } = state.employeeForm;
   return { name, phone, shift };
 };
 
-export default connect(mapStateProps, { employeeUpdate, employeeSave })(EmployeeEdit);
+export default connect(mapStateProps, {
+  employeeUpdate, employeeSave, employeeDelete
+})(EmployeeEdit);
