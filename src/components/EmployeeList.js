@@ -1,10 +1,8 @@
-import firebase from 'firebase';
 import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { SafeAreaView, StyleSheet, FlatList, View, Text } from 'react-native';
 import ListItem from './ListItem';
-import {CardSection} from '../components/common';
 
 import { employeesFetch } from '../actions';
 
@@ -18,14 +16,14 @@ class EmployeeList extends Component {
     if (employees) {
       employeeArr = Object.keys(employees).map(function (k, y) {
         let empObj = employees[k]
-        empObj.key = k;
+        empObj.uid = k;
         return empObj;
       })
     }
     return (
       <FlatList
         data={employeeArr}
-        renderItem={({item}) => <ListItem item={item}></ListItem>}
+        renderItem={({item}) => <ListItem employee={item}/>}
         //renderItem={({ item }) => <CardSection><Text style={styles.item}>{item.name}</Text></CardSection>}
       />
     )
