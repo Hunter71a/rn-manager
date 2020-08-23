@@ -1,10 +1,16 @@
 import React from 'react';
-import { View, ActivityIndicator } from 'react-native';
+import { View } from 'react-native';
+import ActivityIndicator from 'react-native-loading-spinner-overlay';
 
-const Spinner = ({spinnerSize}) => {
+const Spinner = ({ spinnerSize, message }) => {
   return (
     <View style={styles.spinnerStyle}>
-      <ActivityIndicator size={spinnerSize || 'large'}/>
+      <ActivityIndicator
+        visible={true}
+        size={spinnerSize || 'large'}
+        textContent={message}
+        textStyle={{ color: 'gray' }}
+      />
     </View>
   );
 }
